@@ -168,6 +168,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('salary-calculation', [SalaryCalculationController::class, 'index'])->name('salary-calculation.index');
     Route::post('salary-calculation', [SalaryCalculationController::class, 'calculate'])->name('salary-calculation.calculate');
     
+    // Report routes
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('teacher-yearly', [SalaryCalculationController::class, 'teacherYearlyReport'])->name('teacher-yearly');
+        Route::get('department', [SalaryCalculationController::class, 'departmentReport'])->name('department');
+        Route::get('school-wide', [SalaryCalculationController::class, 'schoolWideReport'])->name('school-wide');
+    });
+    
     // API routes for cascade dropdowns
     Route::get('api/subjects-by-semester/{semesterId}', [TeachingAssignmentController::class, 'getSubjectsBySemester']);
     Route::get('api/class-subjects-by-subject/{subjectId}', [TeachingAssignmentController::class, 'getClassSubjectsBySubject']);

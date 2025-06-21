@@ -8,6 +8,7 @@ use App\Models\TeachingAssignment;
 use App\Models\PaymentRate;
 use App\Models\TeacherCoefficient;
 use App\Models\ClassCoefficient;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class SalaryCalculationController extends Controller
@@ -115,5 +116,37 @@ class SalaryCalculationController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage())->withInput();
         }
+    }
+
+    /**
+     * Báo cáo tiền dạy giáo viên trong 1 năm
+     */
+    public function teacherYearlyReport()
+    {
+        $teachers = Teacher::with('department')->orderBy('ho_ten')->get();
+        $years = Semester::select('nam_hoc')->distinct()->orderBy('nam_hoc', 'desc')->get();
+        
+        return view('admin.reports.teacher-yearly', compact('teachers', 'years'));
+    }
+    
+    /**
+     * Báo cáo tiền dạy giáo viên 1 khoa
+     */    public function departmentReport()
+    {
+        $departments = Department::orderBy('ten_khoa')->get();
+        $semesters = Semester::orderBy('nam_hoc', 'desc')->orderBy('ten_ki', 'desc')->get();
+        
+        return view('admin.reports.department', compact('departments', 'semesters'));
+    }
+    
+    /**
+     * Báo cáo tiền dạy giáo viên toàn trường
+     */
+    public function schoolWideReport()
+    {
+        $semesters = Semester::orderBy('nam_hoc', 'desc')->orderBy('ten_ki', 'desc')->get();
+        $years = Semester::select('nam_hoc')->distinct()->orderBy('nam_hoc', 'desc')->get();
+        
+        return view('admin.reports.school-wide', compact('semesters', 'years'));
     }
 }

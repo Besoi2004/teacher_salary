@@ -216,6 +216,36 @@
                                     <a class="nav-link {{ request()->routeIs('admin.salary-calculation.*') ? 'active' : '' }}" href="{{ route('admin.salary-calculation.index') }}">
                                         <i class="fas fa-calculator me-2"></i>
                                         Tính tiền dạy
+                                    </a>                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Dropdown Báo cáo -->
+                        <div class="nav-item">
+                            <a class="nav-link d-flex justify-content-between align-items-center" 
+                               data-bs-toggle="collapse" 
+                               href="#reportManagement" 
+                               role="button" 
+                               aria-expanded="false">
+                                <span>
+                                    <i class="fas fa-chart-line me-2"></i>
+                                    Báo cáo
+                                </span>
+                                <i class="fas fa-chevron-down"></i>
+                            </a>
+                            <div class="collapse" id="reportManagement">
+                                <div class="ms-3">
+                                    <a class="nav-link {{ request()->routeIs('admin.reports.teacher-yearly') ? 'active' : '' }}" href="{{ route('admin.reports.teacher-yearly') }}">
+                                        <i class="fas fa-calendar-year me-2"></i>
+                                        Báo cáo tiền dạy GV trong 1 năm
+                                    </a>
+                                    <a class="nav-link {{ request()->routeIs('admin.reports.department') ? 'active' : '' }}" href="{{ route('admin.reports.department') }}">
+                                        <i class="fas fa-building me-2"></i>
+                                        Báo cáo tiền dạy GV 1 khoa
+                                    </a>
+                                    <a class="nav-link {{ request()->routeIs('admin.reports.school-wide') ? 'active' : '' }}" href="{{ route('admin.reports.school-wide') }}">
+                                        <i class="fas fa-university me-2"></i>
+                                        Báo cáo tiền dạy GV toàn trường
                                     </a>
                                 </div>
                             </div>
