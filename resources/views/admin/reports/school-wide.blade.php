@@ -63,16 +63,14 @@
                                 <i class="fas fa-refresh me-2"></i>Làm mới
                             </a>
                         </div>
-                    </form>
-
-                    @if(request()->filled('report_type') && (request()->filled('semester_id') || request()->filled('year')))
+                    </form>                    @if($reportData)
                         <div class="row mb-4">
                             <div class="col-md-3">
                                 <div class="card bg-primary text-white">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <h4 class="card-title">0</h4>
+                                                <h4 class="card-title">{{ $reportData['summary']['total_teachers'] }}</h4>
                                                 <p class="card-text">Tổng số giáo viên</p>
                                             </div>
                                             <div class="align-self-center">
@@ -87,7 +85,7 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <h4 class="card-title">0</h4>
+                                                <h4 class="card-title">{{ $reportData['summary']['total_classes'] }}</h4>
                                                 <p class="card-text">Tổng số lớp</p>
                                             </div>
                                             <div class="align-self-center">
@@ -102,7 +100,7 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <h4 class="card-title">0</h4>
+                                                <h4 class="card-title">{{ $reportData['summary']['total_hours'] }}</h4>
                                                 <p class="card-text">Tổng số tiết</p>
                                             </div>
                                             <div class="align-self-center">
@@ -117,8 +115,8 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <h4 class="card-title">0 VND</h4>
-                                                <p class="card-text">Tổng tiền dạy</p>
+                                                <h4 class="card-title">{{ number_format($reportData['summary']['total_salary'], 0, ',', '.') }}</h4>
+                                                <p class="card-text">Tổng tiền dạy (VND)</p>
                                             </div>
                                             <div class="align-self-center">
                                                 <i class="fas fa-money-bill-wave fa-2x"></i>
@@ -129,9 +127,14 @@
                             </div>
                         </div>
 
-                        <div class="alert alert-info">
+                        <div class="alert alert-success">
                             <i class="fas fa-info-circle me-2"></i>
-                            <strong>Thông tin báo cáo:</strong> Đang phát triển - Tính năng này sẽ hiển thị báo cáo tổng hợp tiền dạy của tất cả giáo viên trong toàn trường.
+                            <strong>Báo cáo tiền dạy toàn trường:</strong> 
+                            @if($reportData['type'] == 'semester')
+                                {{ $reportData['semester']->ten_ki }} {{ $reportData['semester']->nam_hoc }}
+                            @else
+                                Năm học {{ $reportData['year'] }}
+                            @endif
                         </div>
                         
                         <div class="table-responsive">
@@ -148,22 +151,68 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td colspan="7" class="text-center py-4">
-                                            <i class="fas fa-code text-muted" style="font-size: 2rem;"></i>
-                                            <p class="mt-2 text-muted">Tính năng đang được phát triển...</p>
-                                        </td>
-                                    </tr>
+                                    @foreach($reportData['departments'] as $index => $deptData)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>
+                                                <strong>{{ $deptData['department']->ten_day_du }}</strong>
+                                                <br>
+                                                <small class="text-muted">{{ $deptData['department']->ten_viet_tat }}</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">{{ $deptData['teachers_count'] }} GV</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-success">{{ $deptData['classes_count'] }} lớp</span>
+                                            </td>
+                                            <td>{{ $deptData['total_hours'] }} tiết</td>
+                                            <td>
+                                                <span class="fw-bold text-success">
+                                                    {{ number_format($deptData['total_salary'], 0, ',', '.') }} VND
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.reports.department') }}?department_id={{ $deptData['department']->id }}&semester_id={{ $reportData['type'] == 'semester' ? $reportData['semester']->id : '' }}" 
+                                                   class="btn btn-sm btn-outline-primary" title="Xem chi tiết khoa">
+                                                    <i class="fas fa-eye me-1"></i>Chi tiết
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot class="table-light">
                                     <tr>
-                                        <th colspan="5" class="text-end">Tổng cộng:</th>
-                                        <th>0 VND</th>
+                                        <th colspan="4" class="text-end">Tổng cộng:</th>
+                                        <th>{{ $reportData['summary']['total_hours'] }} tiết</th>
+                                        <th class="text-success fw-bold">{{ number_format($reportData['summary']['total_salary'], 0, ',', '.') }} VND</th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
+                        
+                        @if($reportData['type'] == 'yearly')
+                            <div class="mt-4">
+                                <h5>Chi tiết theo học kỳ trong năm {{ $reportData['year'] }}:</h5>
+                                <div class="row">
+                                    @foreach($reportData['semesters'] as $semester)
+                                        <div class="col-md-6 mb-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">{{ $semester->ten_ki }} {{ $semester->nam_hoc }}</h6>
+                                                    <p class="card-text">
+                                                        <a href="{{ route('admin.reports.school-wide') }}?report_type=semester&semester_id={{ $semester->id }}" 
+                                                           class="btn btn-sm btn-outline-info">
+                                                            <i class="fas fa-chart-line me-1"></i>Xem báo cáo chi tiết
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     @else
                         <div class="text-center py-5">
                             <i class="fas fa-university text-muted" style="font-size: 4rem;"></i>

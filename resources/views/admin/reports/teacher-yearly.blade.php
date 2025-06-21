@@ -58,12 +58,48 @@
                                 <i class="fas fa-refresh me-2"></i>Làm mới
                             </a>
                         </div>
-                    </form>
-
-                    @if(request()->filled('teacher_id') && request()->filled('year'))
-                        <div class="alert alert-info">
+                    </form>                    @if($reportData)
+                        <div class="alert alert-success">
                             <i class="fas fa-info-circle me-2"></i>
-                            <strong>Thông tin báo cáo:</strong> Đang phát triển - Tính năng này sẽ hiển thị báo cáo chi tiết tiền dạy của giáo viên trong cả năm học.
+                            <strong>Báo cáo tiền dạy:</strong> 
+                            {{ $reportData['teacher']->ho_ten }} - {{ $reportData['year'] }}
+                            ({{ $reportData['teacher']->department->ten_viet_tat ?? 'N/A' }})
+                        </div>
+                        
+                        <!-- Thống kê tổng quan -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body text-center">
+                                        <h3>{{ count($reportData['semesters']) }}</h3>
+                                        <p>Số học kỳ dạy</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body text-center">
+                                        <h3>{{ array_sum(array_column($reportData['semesters'], 'classes_count')) }}</h3>
+                                        <p>Tổng số lớp</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body text-center">
+                                        <h3>{{ array_sum(array_column($reportData['semesters'], 'total_hours')) }}</h3>
+                                        <p>Tổng số tiết</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body text-center">
+                                        <h3>{{ number_format($reportData['total_year'], 0, ',', '.') }}</h3>
+                                        <p>Tổng tiền (VND)</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="table-responsive">
@@ -78,15 +114,91 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td colspan="5" class="text-center py-4">
-                                            <i class="fas fa-code text-muted" style="font-size: 2rem;"></i>
-                                            <p class="mt-2 text-muted">Tính năng đang được phát triển...</p>
-                                        </td>
-                                    </tr>
+                                    @foreach($reportData['semesters'] as $semesterData)
+                                        <tr>
+                                            <td>
+                                                <strong>{{ $semesterData['semester']->ten_ki }} {{ $semesterData['semester']->nam_hoc }}</strong>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info">{{ $semesterData['classes_count'] }} lớp</span>
+                                            </td>
+                                            <td>{{ $semesterData['total_hours'] }} tiết</td>
+                                            <td>
+                                                <span class="fw-bold text-success">
+                                                    {{ number_format($semesterData['total_salary'], 0, ',', '.') }} VND
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-primary" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#detailModal{{ $loop->index }}">
+                                                    <i class="fas fa-eye me-1"></i>Chi tiết
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
+                                <tfoot class="table-light">
+                                    <tr>
+                                        <th>Tổng năm {{ $reportData['year'] }}</th>
+                                        <th>{{ array_sum(array_column($reportData['semesters'], 'classes_count')) }} lớp</th>
+                                        <th>{{ array_sum(array_column($reportData['semesters'], 'total_hours')) }} tiết</th>
+                                        <th class="text-success fw-bold">{{ number_format($reportData['total_year'], 0, ',', '.') }} VND</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
+                        
+                        <!-- Modal chi tiết cho từng học kỳ -->
+                        @foreach($reportData['semesters'] as $index => $semesterData)
+                            <div class="modal fade" id="detailModal{{ $index }}" tabindex="-1">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                Chi tiết {{ $semesterData['semester']->ten_ki }} {{ $semesterData['semester']->nam_hoc }}
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm table-bordered">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Mã lớp</th>
+                                                            <th>Tên lớp</th>
+                                                            <th>Học phần</th>
+                                                            <th>Số tiết</th>
+                                                            <th>SV</th>
+                                                            <th>Hệ số HP</th>
+                                                            <th>Hệ số lớp</th>
+                                                            <th>Tiết quy đổi</th>
+                                                            <th>Tiền dạy</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($semesterData['details'] as $detail)
+                                                            <tr>
+                                                                <td>{{ $detail['ma_lop'] }}</td>
+                                                                <td>{{ $detail['ten_lop'] }}</td>
+                                                                <td>{{ $detail['ten_hoc_phan'] }}</td>
+                                                                <td>{{ $detail['so_tiet'] }}</td>
+                                                                <td>{{ $detail['so_sinh_vien'] }}</td>
+                                                                <td>{{ $detail['he_so_hoc_phan'] }}</td>
+                                                                <td>{{ $detail['he_so_lop'] }}</td>
+                                                                <td>{{ $detail['tiet_quy_doi'] }}</td>
+                                                                <td>{{ number_format($detail['tien_day'], 0, ',', '.') }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     @else
                         <div class="text-center py-5">
                             <i class="fas fa-chart-line text-muted" style="font-size: 4rem;"></i>

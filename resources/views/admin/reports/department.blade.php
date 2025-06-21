@@ -30,7 +30,7 @@
                                 <option value="">-- Chọn khoa --</option>
                                 @foreach($departments as $department)
                                     <option value="{{ $department->id }}" {{ request('department_id') == $department->id ? 'selected' : '' }}>
-                                        {{ $department->ten_viet_tat }} - {{ $department->ten_khoa }}
+                                        {{ $department->ten_viet_tat }} - {{ $department->ten_day_du }}
                                     </option>
                                 @endforeach
                             </select>
@@ -55,12 +55,47 @@
                                 <i class="fas fa-refresh me-2"></i>Làm mới
                             </a>
                         </div>
-                    </form>
-
-                    @if(request()->filled('department_id') && request()->filled('semester_id'))
-                        <div class="alert alert-info">
+                    </form>                    @if($reportData)
+                        <div class="alert alert-success">
                             <i class="fas fa-info-circle me-2"></i>
-                            <strong>Thông tin báo cáo:</strong> Đang phát triển - Tính năng này sẽ hiển thị báo cáo tổng hợp tiền dạy của tất cả giáo viên trong khoa.
+                            <strong>Báo cáo tiền dạy:</strong> 
+                            {{ $reportData['department']->ten_day_du }} - {{ $reportData['semester']->ten_ki }} {{ $reportData['semester']->nam_hoc }}
+                        </div>
+                        
+                        <!-- Thống kê tổng quan -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body text-center">
+                                        <h3>{{ $reportData['total_teachers'] }}</h3>
+                                        <p>Số giáo viên dạy</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body text-center">
+                                        <h3>{{ $reportData['total_classes'] }}</h3>
+                                        <p>Tổng số lớp</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body text-center">
+                                        <h3>{{ $reportData['total_hours'] }}</h3>
+                                        <p>Tổng số tiết</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body text-center">
+                                        <h3>{{ number_format($reportData['total_salary'], 0, ',', '.') }}</h3>
+                                        <p>Tổng tiền (VND)</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="table-responsive">
@@ -78,22 +113,100 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td colspan="8" class="text-center py-4">
-                                            <i class="fas fa-code text-muted" style="font-size: 2rem;"></i>
-                                            <p class="mt-2 text-muted">Tính năng đang được phát triển...</p>
-                                        </td>
-                                    </tr>
+                                    @foreach($reportData['teachers'] as $index => $teacherData)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $teacherData['teacher']->ma_so }}</td>
+                                            <td>
+                                                <strong>{{ $teacherData['teacher']->ho_ten }}</strong>
+                                            </td>
+                                            <td>
+                                                @if($teacherData['teacher']->degree)
+                                                    <span class="badge bg-info">{{ $teacherData['teacher']->degree->ten_viet_tat }}</span>
+                                                @else
+                                                    <span class="text-muted">N/A</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary">{{ $teacherData['classes_count'] }} lớp</span>
+                                            </td>
+                                            <td>{{ $teacherData['total_hours'] }} tiết</td>
+                                            <td>
+                                                <span class="fw-bold text-success">
+                                                    {{ number_format($teacherData['total_salary'], 0, ',', '.') }} VND
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-primary" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#teacherModal{{ $index }}">
+                                                    <i class="fas fa-eye me-1"></i>Chi tiết
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot class="table-light">
                                     <tr>
-                                        <th colspan="6" class="text-end">Tổng cộng:</th>
-                                        <th>0 VND</th>
+                                        <th colspan="4" class="text-end">Tổng cộng:</th>
+                                        <th>{{ $reportData['total_classes'] }} lớp</th>
+                                        <th>{{ $reportData['total_hours'] }} tiết</th>
+                                        <th class="text-success fw-bold">{{ number_format($reportData['total_salary'], 0, ',', '.') }} VND</th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
+                        
+                        <!-- Modal chi tiết cho từng giáo viên -->
+                        @foreach($reportData['teachers'] as $index => $teacherData)
+                            <div class="modal fade" id="teacherModal{{ $index }}" tabindex="-1">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                Chi tiết: {{ $teacherData['teacher']->ho_ten }} - {{ $reportData['semester']->ten_ki }} {{ $reportData['semester']->nam_hoc }}
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm table-bordered">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Mã lớp</th>
+                                                            <th>Tên lớp</th>
+                                                            <th>Học phần</th>
+                                                            <th>Số tiết</th>
+                                                            <th>SV</th>
+                                                            <th>Hệ số HP</th>
+                                                            <th>Hệ số lớp</th>
+                                                            <th>Tiết quy đổi</th>
+                                                            <th>Tiền dạy</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($teacherData['details'] as $detail)
+                                                            <tr>
+                                                                <td>{{ $detail['ma_lop'] }}</td>
+                                                                <td>{{ $detail['ten_lop'] }}</td>
+                                                                <td>{{ $detail['ten_hoc_phan'] }}</td>
+                                                                <td>{{ $detail['so_tiet'] }}</td>
+                                                                <td>{{ $detail['so_sinh_vien'] }}</td>
+                                                                <td>{{ $detail['he_so_hoc_phan'] }}</td>
+                                                                <td>{{ $detail['he_so_lop'] }}</td>
+                                                                <td>{{ $detail['tiet_quy_doi'] }}</td>
+                                                                <td>{{ number_format($detail['tien_day'], 0, ',', '.') }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     @else
                         <div class="text-center py-5">
                             <i class="fas fa-building text-muted" style="font-size: 4rem;"></i>
