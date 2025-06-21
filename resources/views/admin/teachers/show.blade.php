@@ -164,38 +164,16 @@
                 </h5>
             </div>
             <div class="card-body">
-                @php
-                    $assignments = $teacher->teachingAssignments ?? collect();
+                @php                    $assignments = $teacher->teachingAssignments ?? collect();
                     $totalClasses = $assignments->count();
-                    $totalHours = $assignments->sum(function($ta) {
-                        return $ta->theory_hours_assigned + $ta->practice_hours_assigned;
-                    });
-                    $totalSalary = $assignments->sum(function($ta) {
-                        return $ta->calculateSalary();
-                    });
                 @endphp
                 
                 <div class="row text-center">
-                    <div class="col-6">
+                    <div class="col-12">
                         <div class="border rounded p-3 mb-3">
                             <div class="h4 text-primary mb-1">{{ $totalClasses }}</div>
-                            <div class="small text-muted">Lớp đang dạy</div>
+                            <div class="small text-muted">Lớp đang phụ trách</div>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="border rounded p-3 mb-3">
-                            <div class="h4 text-success mb-1">{{ $totalHours }}</div>
-                            <div class="small text-muted">Tổng giờ dạy</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center">
-                    <div class="border rounded p-3 mb-3">
-                        <div class="h4 text-warning mb-1">
-                            {{ number_format($totalSalary, 0, ',', '.') }} VND
-                        </div>
-                        <div class="small text-muted">Tổng lương dự kiến</div>
                     </div>
                 </div>
             </div>
@@ -222,14 +200,10 @@
                                         {{ $assignment->role }}
                                     </span>
                                 </small>
-                            </div>
-                            <div class="text-end">
-                                <div class="small text-muted">
-                                    {{ $assignment->theory_hours_assigned + $assignment->practice_hours_assigned }} giờ
-                                </div>
-                                <div class="small text-success">
-                                    {{ number_format($assignment->calculateSalary(), 0, ',', '.') }} VND
-                                </div>
+                            </div>                            <div class="text-end">
+                                <small class="text-muted">
+                                    Phân công giảng dạy
+                                </small>
                             </div>
                         </div>
                     </div>

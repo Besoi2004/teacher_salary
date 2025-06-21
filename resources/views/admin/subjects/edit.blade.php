@@ -109,7 +109,7 @@
                                 @error('he_so_hoc_phan')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <div class="form-text">Hệ số tính lương cho học phần (0.5 - 2.0)</div>
+                                <div class="form-text">Hệ số quan trọng của học phần (0.5 - 2.0)</div>
                             </div>
                         </div>
                         
@@ -179,7 +179,7 @@
                     <ul class="mb-0">
                         <li>Mã số học phần phải là duy nhất</li>
                         <li>Số tín chỉ thường từ 1-4 cho môn cơ bản</li>
-                        <li>Hệ số học phần ảnh hưởng đến lương giảng dạy</li>
+                        <li>Hệ số học phần ảnh hưởng đến độ khó và mức độ quan trọng</li>
                         <li>Số tiết = Tín chỉ × 15 (tự động tính)</li>
                     </ul>
                 </div>

@@ -196,13 +196,7 @@
                     $assignments = $classSubject->teachingAssignments;
                     $totalTeachers = $assignments->count();
                     $totalHours = $assignments->sum(function($ta) {
-                        return $ta->theory_hours_assigned + $ta->practice_hours_assigned;
-                    });
-                    $totalSalary = $assignments->sum(function($ta) {
-                        return $ta->calculateSalary();
-                    });
-                    $occupancyRate = $classSubject->max_students > 0 ? 
-                        round(($classSubject->current_students / $classSubject->max_students) * 100, 1) : 0;
+                        return $ta->theory_hours_assigned + $ta->practice_hours_assigned;                    });
                 @endphp
                 
                 <div class="row text-center">
@@ -214,25 +208,8 @@
                     </div>
                     <div class="col-6">
                         <div class="border rounded p-3 mb-3">
-                            <div class="h4 text-success mb-1">{{ $totalHours }}</div>
-                            <div class="small text-muted">Tổng giờ dạy</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="row text-center">
-                    <div class="col-6">
-                        <div class="border rounded p-3 mb-3">
-                            <div class="h4 text-warning mb-1">{{ $occupancyRate }}%</div>
-                            <div class="small text-muted">Tỷ lệ lấp đầy</div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="border rounded p-3 mb-3">
-                            <div class="h4 text-info mb-1">
-                                {{ number_format($totalSalary / 1000000, 1) }}M
-                            </div>
-                            <div class="small text-muted">Tổng lương</div>
+                            <div class="h4 text-success mb-1">{{ $classSubject->si_so_lop }}</div>
+                            <div class="small text-muted">Sĩ số lớp</div>
                         </div>
                     </div>
                 </div>
@@ -260,15 +237,10 @@
                                         {{ $assignment->role }}
                                     </span>
                                 </small>
-                            </div>
-                            <div class="text-end">
-                                <div class="small text-muted">
-                                    LT: {{ $assignment->theory_hours_assigned }}h | 
-                                    TH: {{ $assignment->practice_hours_assigned }}h
-                                </div>
-                                <div class="small text-success">
-                                    {{ number_format($assignment->calculateSalary(), 0, ',', '.') }} VND
-                                </div>
+                            </div>                            <div class="text-end">
+                                <small class="text-muted">
+                                    Phân công giảng dạy
+                                </small>
                             </div>
                         </div>
                     </div>

@@ -15,29 +15,34 @@ class DegreeSeeder extends Seeder
     {
         $degrees = [
             [
-                'ten_day_du' => 'Tiến sĩ Công nghệ thông tin',
-                'ten_viet_tat' => 'TS.CNTT',
-                'mo_ta' => 'Bằng tiến sĩ chuyên ngành Công nghệ thông tin'
+                'ten_day_du' => 'Cử nhân/Kỹ sư',
+                'ten_viet_tat' => 'CN/KS',
+                'mo_ta' => 'Bằng cử nhân hoặc kỹ sư (trình độ đại học)'
             ],
             [
-                'ten_day_du' => 'Thạc sĩ Khoa học máy tính',
-                'ten_viet_tat' => 'ThS.KHMT',
-                'mo_ta' => 'Bằng thạc sĩ chuyên ngành Khoa học máy tính'
+                'ten_day_du' => 'Thạc sĩ',
+                'ten_viet_tat' => 'ThS',
+                'mo_ta' => 'Bằng thạc sĩ khoa học hoặc thạc sĩ chuyên ngành'
             ],
             [
-                'ten_day_du' => 'Kỹ sư Điện tử Viễn thông',
-                'ten_viet_tat' => 'KS.DTVT',
-                'mo_ta' => 'Bằng kỹ sư chuyên ngành Điện tử Viễn thông'
+                'ten_day_du' => 'Tiến sĩ',
+                'ten_viet_tat' => 'TS',
+                'mo_ta' => 'Bằng tiến sĩ khoa học hoặc tiến sĩ chuyên ngành'
             ],
             [
-                'ten_day_du' => 'Cử nhân Kinh tế',
-                'ten_viet_tat' => 'CN.KT',
-                'mo_ta' => 'Bằng cử nhân chuyên ngành Kinh tế'
+                'ten_day_du' => 'Phó giáo sư',
+                'ten_viet_tat' => 'PGS',
+                'mo_ta' => 'Chức danh khoa học Phó giáo sư'
             ],
             [
-                'ten_day_du' => 'Tiến sĩ Toán học',
-                'ten_viet_tat' => 'TS.TH',
-                'mo_ta' => 'Bằng tiến sĩ chuyên ngành Toán học'
+                'ten_day_du' => 'Giáo sư',
+                'ten_viet_tat' => 'GS',
+                'mo_ta' => 'Chức danh khoa học Giáo sư'
+            ],
+            [
+                'ten_day_du' => 'Cao đẳng',
+                'ten_viet_tat' => 'CĐ',
+                'mo_ta' => 'Bằng cao đẳng'
             ]
         ];
 

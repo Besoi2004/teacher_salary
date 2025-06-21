@@ -9,6 +9,10 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\ClassSubjectController;
 use App\Http\Controllers\TeachingAssignmentController;
+use App\Http\Controllers\PaymentRateController;
+use App\Http\Controllers\TeacherCoefficientController;
+use App\Http\Controllers\ClassCoefficientController;
+use App\Http\Controllers\SalaryCalculationController;
 
 Route::get('/', function () {
     return redirect()->route('admin.index');
@@ -17,6 +21,8 @@ Route::get('/', function () {
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
+    // Alias for dashboard - compatibility
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/statistics', [AdminController::class, 'statistics'])->name('statistics');
     
     // Test route for debugging
@@ -152,6 +158,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('class-subjects-statistics', [ClassSubjectController::class, 'statistics'])->name('class-subjects.statistics');
     
     Route::resource('teaching-assignments', TeachingAssignmentController::class);
+    
+    // Resource routes - Tính tiền dạy
+    Route::resource('payment-rates', PaymentRateController::class);
+    Route::resource('teacher-coefficients', TeacherCoefficientController::class);
+    Route::resource('class-coefficients', ClassCoefficientController::class);
+    
+    // Salary Calculation routes
+    Route::get('salary-calculation', [SalaryCalculationController::class, 'index'])->name('salary-calculation.index');
+    Route::post('salary-calculation', [SalaryCalculationController::class, 'calculate'])->name('salary-calculation.calculate');
     
     // API routes for cascade dropdowns
     Route::get('api/subjects-by-semester/{semesterId}', [TeachingAssignmentController::class, 'getSubjectsBySemester']);

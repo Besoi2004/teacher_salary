@@ -18,11 +18,7 @@ class ClassSubjectSeeder extends Seeder
                 'ten_lop' => 'Lập trình cơ bản - Lớp 01',
                 'subject_id' => 1, // CS101
                 'semester_id' => 1, // HK1 2024-2025
-                'credits' => 3,
-                'theory_hours' => 30,
-                'practice_hours' => 15,
-                'max_students' => 40,
-                'current_students' => 35,
+                'si_so_lop' => 35,
                 'ghi_chu' => 'Lớp học cơ bản dành cho sinh viên năm nhất'
             ],
             [
@@ -30,11 +26,7 @@ class ClassSubjectSeeder extends Seeder
                 'ten_lop' => 'Lập trình cơ bản - Lớp 02',
                 'subject_id' => 1, // CS101
                 'semester_id' => 1, // HK1 2024-2025
-                'credits' => 3,
-                'theory_hours' => 30,
-                'practice_hours' => 15,
-                'max_students' => 40,
-                'current_students' => 38,
+                'si_so_lop' => 38,
                 'ghi_chu' => 'Lớp học cơ bản dành cho sinh viên năm nhất'
             ],
             [
@@ -42,11 +34,7 @@ class ClassSubjectSeeder extends Seeder
                 'ten_lop' => 'Cấu trúc dữ liệu và giải thuật - Lớp 01',
                 'subject_id' => 2, // CS102
                 'semester_id' => 2, // HK2 2024-2025
-                'credits' => 4,
-                'theory_hours' => 45,
-                'practice_hours' => 15,
-                'max_students' => 35,
-                'current_students' => 30,
+                'si_so_lop' => 30,
                 'ghi_chu' => 'Yêu cầu hoàn thành CS101'
             ],
             [
@@ -54,11 +42,7 @@ class ClassSubjectSeeder extends Seeder
                 'ten_lop' => 'Toán cao cấp A1 - Lớp 01',
                 'subject_id' => 6, // MATH101
                 'semester_id' => 1, // HK1 2024-2025
-                'credits' => 4,
-                'theory_hours' => 60,
-                'practice_hours' => 0,
-                'max_students' => 50,
-                'current_students' => 45,
+                'si_so_lop' => 45,
                 'ghi_chu' => 'Môn học cơ sở bắt buộc'
             ]
         ];

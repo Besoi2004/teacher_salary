@@ -10,15 +10,7 @@ class TeachingAssignment extends Model
     protected $fillable = [
         'teacher_id',
         'class_subject_id',
-        'role',
-        'theory_hours_assigned',
-        'practice_hours_assigned',
-        'hourly_rate',
         'ghi_chu'
-    ];
-
-    protected $casts = [
-        'hourly_rate' => 'decimal:2'
     ];
 
     /**
@@ -38,20 +30,19 @@ class TeachingAssignment extends Model
     }
 
     /**
-     * Tính lương tự động
+     * Lấy tên đầy đủ của phân công
      */
-    public function calculateSalary()
+    public function getFullNameAttribute(): string
     {
-        $totalHours = $this->theory_hours_assigned + $this->practice_hours_assigned;
-        return $totalHours * $this->hourly_rate;
+        return $this->teacher->ho_ten . ' - ' . $this->classSubject->ma_lop;
     }
 
     /**
-     * Boot method để xử lý events
+     * Tính lương đơn giản (có thể bỏ nếu không cần)
      */
-    protected static function boot()
+    public function calculateSalary()
     {
-        parent::boot();
-        // Có thể thêm logic auto-calculation nếu cần
+        // Trả về 0 vì hệ thống không quản lý lương nữa
+        return 0;
     }
 }

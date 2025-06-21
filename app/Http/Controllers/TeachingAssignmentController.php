@@ -69,10 +69,6 @@ class TeachingAssignmentController extends Controller
             TeachingAssignment::create([
                 'teacher_id' => $request->teacher_id,
                 'class_subject_id' => $request->class_subject_id,
-                'role' => 'primary', // Default role
-                'theory_hours_assigned' => 0,
-                'practice_hours_assigned' => 0,
-                'hourly_rate' => 150000,
                 'ghi_chu' => $request->ghi_chu
             ]);
 
@@ -171,10 +167,6 @@ class TeachingAssignmentController extends Controller
                 TeachingAssignment::create([
                     'teacher_id' => $request->teacher_id,
                     'class_subject_id' => $classSubjectId,
-                    'role' => 'primary', // Default role
-                    'theory_hours_assigned' => 0,
-                    'practice_hours_assigned' => 0,
-                    'hourly_rate' => 150000,
                     'ghi_chu' => $request->ghi_chu
                 ]);
 
@@ -192,7 +184,8 @@ class TeachingAssignmentController extends Controller
     public function show(TeachingAssignment $teachingAssignment)
     {
         $teachingAssignment->load(['teacher.department', 'classSubject.subject', 'classSubject.semester']);
-        return view('admin.teaching-assignments.show', compact('teachingAssignment'));
+        $assignment = $teachingAssignment;
+        return view('admin.teaching-assignments.show', compact('assignment'));
     }
 
     public function edit(TeachingAssignment $teachingAssignment)

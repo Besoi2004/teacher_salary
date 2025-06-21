@@ -105,7 +105,7 @@
                         @error('he_so_hoc_phan')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <div class="form-text">Hệ số tính lương cho học phần (0.5 - 2.0)</div>
+                        <div class="form-text">Hệ số quan trọng của học phần (0.5 - 2.0)</div>
                     </div>
 
                     <div class="mb-3">

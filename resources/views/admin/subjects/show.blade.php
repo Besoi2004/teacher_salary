@@ -165,31 +165,24 @@
                         </div>
                     </div>
                 </div>
-                
-                @php
+                  @php
+                    $totalClassSubjects = $subject->classSubjects->count();
                     $totalAssignments = $subject->classSubjects->sum(function($cs) {
                         return $cs->teachingAssignments->count();
-                    });
-                    $totalSalary = $subject->classSubjects->sum(function($cs) {
-                        return $cs->teachingAssignments->sum(function($ta) {
-                            return $ta->calculateSalary();
-                        });
                     });
                 @endphp
                 
                 <div class="row text-center">
                     <div class="col-6">
                         <div class="border rounded p-3 mb-3">
-                            <div class="h4 text-info mb-1">{{ $totalAssignments }}</div>
-                            <div class="small text-muted">Phân công</div>
+                            <div class="h4 text-info mb-1">{{ $totalClassSubjects }}</div>
+                            <div class="small text-muted">Lớp học phần</div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="border rounded p-3 mb-3">
-                            <div class="h4 text-warning mb-1">
-                                {{ number_format($totalSalary / 1000000, 1) }}M
-                            </div>
-                            <div class="small text-muted">Tổng lương</div>
+                            <div class="h4 text-warning mb-1">{{ $totalAssignments }}</div>
+                            <div class="small text-muted">Phân công</div>
                         </div>
                     </div>
                 </div>
