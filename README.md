@@ -1,13 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hệ thống Quản lý Lương Giáo viên
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Hệ thống quản lý lương giáo viên được xây dựng bằng Laravel 11, giúp quản lý thông tin giáo viên, phân công giảng dạy và tính toán lương một cách hiệu quả.
 
-## About Laravel
+## Tính năng chính
+
+### 1. Quản lý Giáo viên
+- ✅ Thêm, sửa, xóa thông tin giáo viên
+- ✅ Quản lý theo khoa, bằng cấp
+- ✅ Hiển thị danh sách và thống kê
+
+### 2. Quản lý Học phần và Lớp học
+- ✅ Quản lý môn học/học phần
+- ✅ Quản lý học kỳ
+- ✅ Quản lý lớp học phần
+- ✅ Thống kê theo học kỳ
+
+### 3. Phân công Giảng dạy
+- ✅ **Phân công từng lớp**: Phân công một giáo viên cho một lớp học phần
+- ✅ **Phân công hàng loạt**: Chọn nhiều lớp cùng lúc cho một giáo viên
+- ✅ **Kiểm tra trùng lặp**: Không cho phép 2 giáo viên cùng dạy 1 lớp
+- ✅ **Hiển thị trạng thái**: Lớp đã được phân công hiển thị màu vàng và không thể chọn
+- ✅ **Panel trạng thái**: Hiển thị danh sách lớp đã/chưa được phân công
+
+### 4. Giao diện thân thiện
+- ✅ Dropdown cascade: Học kỳ → Học phần → Lớp học phần
+- ✅ Responsive design với Bootstrap 5
+- ✅ Thông báo lỗi chi tiết và rõ ràng
+- ✅ Icons FontAwesome
+
+## Công nghệ sử dụng
+
+- **Backend**: Laravel 11 (PHP 8.1+)
+- **Database**: SQLite (có thể chuyển sang MySQL/PostgreSQL)
+- **Frontend**: Bootstrap 5, FontAwesome, JavaScript
+- **Other**: Composer, NPM
+
+## Cài đặt
+
+1. **Clone repository**
+```bash
+git clone https://github.com/YOUR_USERNAME/teacher-salary-management.git
+cd teacher-salary-management
+```
+
+2. **Cài đặt dependencies**
+```bash
+composer install
+npm install
+```
+
+3. **Cấu hình môi trường**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Cấu hình database trong file .env**
+```
+DB_CONNECTION=sqlite
+DB_DATABASE=database/database.sqlite
+```
+
+5. **Chạy migration và seeder**
+```bash
+touch database/database.sqlite
+php artisan migrate --seed
+```
+
+6. **Khởi động server**
+```bash
+php artisan serve
+```
+
+Truy cập: `http://localhost:8000/admin`
+
+## Cấu trúc Database
+
+- **teachers**: Thông tin giáo viên
+- **departments**: Khoa/Bộ môn
+- **degrees**: Bằng cấp
+- **subjects**: Học phần/Môn học
+- **semesters**: Học kỳ
+- **class_subjects**: Lớp học phần
+- **teaching_assignments**: Phân công giảng dạy
+
+## Tác giả
+
+Được phát triển với ❤️
+
+## Giấy phép
+
+Dự án này sử dụng giấy phép MIT.
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
