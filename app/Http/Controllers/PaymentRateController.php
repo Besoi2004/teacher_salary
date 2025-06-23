@@ -14,7 +14,8 @@ class PaymentRateController extends Controller
     public function index()
     {
         $paymentRates = PaymentRate::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.payment-rates.index', compact('paymentRates'));
+        $hasPaymentRate = PaymentRate::exists(); // Kiểm tra đã có mức lương chưa
+        return view('admin.payment-rates.index', compact('paymentRates', 'hasPaymentRate'));
     }
 
     /**
@@ -22,6 +23,12 @@ class PaymentRateController extends Controller
      */
     public function create()
     {
+        // Kiểm tra nếu đã có mức lương thì không cho tạo mới
+        if (PaymentRate::exists()) {
+            return redirect()->route('admin.payment-rates.index')
+                           ->with('error', 'Hệ thống chỉ cho phép có một mức lương duy nhất. Vui lòng sửa hoặc xóa mức lương hiện tại để tạo mới!');
+        }
+
         return view('admin.payment-rates.create');
     }
 
@@ -30,6 +37,12 @@ class PaymentRateController extends Controller
      */
     public function store(Request $request)
     {
+        // Kiểm tra lại trước khi lưu
+        if (PaymentRate::exists()) {
+            return redirect()->route('admin.payment-rates.index')
+                           ->with('error', 'Hệ thống chỉ cho phép có một mức lương duy nhất!');
+        }
+
         $request->validate([
             'ten_muc_luong' => 'required|string|max:100|unique:payment_rates,ten_muc_luong',
             'gia_tien_moi_tiet' => 'required|numeric|min:0|max:9999999.99',
@@ -82,6 +95,7 @@ class PaymentRateController extends Controller
     {
         $paymentRate->delete();
 
-        return redirect()->route('admin.payment-rates.index')->with('success', 'Mức lương theo tiết đã được xóa thành công!');
+        return redirect()->route('admin.payment-rates.index')
+                       ->with('success', 'Mức lương theo tiết đã được xóa thành công! Bạn có thể tạo mức lương mới.');
     }
 }

@@ -111,27 +111,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Hướng dẫn
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-info">
-                        <h6><i class="fas fa-lightbulb me-2"></i>Gợi ý:</h6>
-                        <ul class="mb-0">
-                            <li>Tên mức lương nên rõ ràng và dễ hiểu</li>
-                            <li>Giá tiền tính theo 1 tiết dạy (45 phút)</li>
-                            <li>Có thể tạo nhiều mức lương khác nhau</li>
-                            <li>Chỉ mức lương được kích hoạt mới hiển thị khi chọn</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 @endsection

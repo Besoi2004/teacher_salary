@@ -100,27 +100,7 @@
 
                     <hr class="my-4">
                     
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="text-center text-muted">
-                                <i class="mdi mdi-information-outline h2"></i>
-                                <h5 class="mt-2">Hướng dẫn sử dụng</h5>
-                                <p class="mb-0">
-                                    1. Chọn học kỳ cần tính lương<br>
-                                    2. Chọn giáo viên cần tính lương<br>
-                                    3. Nhấn "Tính tiền dạy" để xem kết quả chi tiết
-                                </p>
-                                <div class="mt-3">
-                                    <small class="text-muted">
-                                        <strong>Công thức tính:</strong> 
-                                        Tiền dạy = Số tiết quy đổi × Hệ số giáo viên × Tiền dạy một tiết<br>
-                                        <strong>Số tiết quy đổi:</strong> 
-                                        Số tiết thực tế × (Hệ số học phần + Hệ số lớp)
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -32,22 +32,36 @@
                     <form action="{{ route('admin.teacher-coefficients.update', $teacherCoefficient) }}" method="POST">
                         @csrf
                         @method('PUT')
-                        
-                        <div class="row">
+                          <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="ten_bang_cap" class="form-label">
-                                        Tên bằng cấp <span class="text-danger">*</span>
+                                        Bằng cấp <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" 
-                                           class="form-control @error('ten_bang_cap') is-invalid @enderror" 
-                                           id="ten_bang_cap" 
-                                           name="ten_bang_cap" 
-                                           value="{{ old('ten_bang_cap', $teacherCoefficient->ten_bang_cap) }}"
-                                           placeholder="VD: Cử nhân/Kỹ sư, Thạc sĩ, Tiến sĩ...">
+                                    <select class="form-select @error('ten_bang_cap') is-invalid @enderror" 
+                                            id="ten_bang_cap" 
+                                            name="ten_bang_cap" 
+                                            required>
+                                        <option value="">-- Chọn bằng cấp --</option>
+                                        @foreach($degrees as $degree)
+                                            @if(!in_array($degree->ten_day_du, $existingDegrees) || $degree->ten_day_du == $teacherCoefficient->ten_bang_cap)
+                                                <option value="{{ $degree->ten_day_du }}" 
+                                                        {{ old('ten_bang_cap', $teacherCoefficient->ten_bang_cap) == $degree->ten_day_du ? 'selected' : '' }}>
+                                                    {{ $degree->ten_day_du }}
+                                                    @if($degree->ten_viet_tat)
+                                                        ({{ $degree->ten_viet_tat }})
+                                                    @endif
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                     @error('ten_bang_cap')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Chỉ hiển thị các bằng cấp chưa có hệ số (và bằng cấp hiện tại)
+                                    </div>
                                 </div>
                             </div>
                             

@@ -31,7 +31,7 @@ class DegreeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ten_day_du' => 'required|string|max:255',
+            'ten_day_du' => 'required|string|max:255|unique:degrees,ten_day_du',
             'ten_viet_tat' => 'required|string|max:50|unique:degrees,ten_viet_tat',
             'mo_ta' => 'nullable|string'
         ]);

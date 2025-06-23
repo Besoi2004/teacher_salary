@@ -12,10 +12,7 @@
                 Chỉnh sửa Khoa
             </h2>
             <div>
-                <a href="{{ route('admin.departments.show', $department) }}" class="btn btn-info me-2">
-                    <i class="fas fa-eye me-2"></i>
-                    Xem chi tiết
-                </a>
+
                 <a href="{{ route('admin.departments.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left me-2"></i>
                     Quay lại
@@ -94,10 +91,7 @@
                             <i class="fas fa-save me-2"></i>
                             Cập nhật Khoa
                         </button>
-                        <a href="{{ route('admin.departments.show', $department) }}" class="btn btn-outline-info">
-                            <i class="fas fa-eye me-2"></i>
-                            Xem chi tiết
-                        </a>
+                        
                         <a href="{{ route('admin.departments.index') }}" class="btn btn-outline-secondary">
                             <i class="fas fa-times me-2"></i>
                             Hủy
@@ -108,61 +102,6 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-12">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="card-title mb-0">
-                    <i class="fas fa-info-circle me-2"></i>
-                    Thông tin hiện tại
-                </h6>
-            </div>
-            <div class="card-body">
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <strong>ID:</strong> {{ $department->id }}
-                    </li>
-                    <li class="mb-2">
-                        <strong>Tên viết tắt hiện tại:</strong> 
-                        <span class="badge bg-success">{{ $department->ten_viet_tat }}</span>
-                    </li>
-                    <li class="mb-2">
-                        <strong>Ngày tạo:</strong> {{ $department->created_at->format('d/m/Y H:i') }}
-                    </li>
-                    <li class="mb-2">
-                        <strong>Cập nhật lần cuối:</strong> {{ $department->updated_at->format('d/m/Y H:i') }}
-                    </li>
-                    <li>
-                        <strong>Số giáo viên:</strong> 
-                        <span class="badge bg-secondary">{{ $department->teachers()->count() }} giáo viên</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
 
-        <div class="card mt-3">
-            <div class="card-header">
-                <h6 class="card-title mb-0">
-                    <i class="fas fa-exclamation-triangle me-2"></i>
-                    Lưu ý
-                </h6>
-            </div>
-            <div class="card-body">
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <i class="fas fa-check text-success me-2"></i>
-                        Tên viết tắt phải là duy nhất
-                    </li>
-                    <li class="mb-2">
-                        <i class="fas fa-check text-success me-2"></i>
-                        Thay đổi sẽ ảnh hưởng đến tất cả giáo viên thuộc khoa này
-                    </li>
-                    <li>
-                        <i class="fas fa-info text-info me-2"></i>
-                        Có {{ $department->teachers()->count() }} giáo viên đang thuộc khoa này
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection

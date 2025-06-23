@@ -19,8 +19,7 @@ class ClassCoefficientController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
+    {        $request->validate([
             'tu_sv' => 'required|integer|min:0',
             'den_sv' => 'required|integer|min:0|gte:tu_sv',
             'he_so' => 'required|numeric|min:0',
@@ -42,14 +41,21 @@ class ClassCoefficientController extends Controller
                 $q->where('tu_sv', '>=', $request->tu_sv)
                   ->where('den_sv', '<=', $request->den_sv);
             });
-        })->where('trang_thai', true)->first();
-
-        if ($existingRange) {
+        })->where('trang_thai', true)->first();        if ($existingRange) {
             return back()->withErrors(['error' => 'Khoảng số sinh viên này đã tồn tại với hệ số khác!'])
                         ->withInput();
         }
 
-        ClassCoefficient::create($request->all());
+        // Tạo dữ liệu với các trường cần thiết
+        $data = [
+            'tu_sv' => $request->tu_sv,
+            'den_sv' => $request->den_sv,
+            'he_so' => $request->he_so,
+            'mo_ta' => $request->mo_ta,
+            'trang_thai' => $request->boolean('trang_thai')
+        ];
+
+        ClassCoefficient::create($data);
 
         return redirect()->route('admin.class-coefficients.index')
                         ->with('success', 'Tạo hệ số lớp thành công!');
@@ -66,8 +72,7 @@ class ClassCoefficientController extends Controller
     }
 
     public function update(Request $request, ClassCoefficient $classCoefficient)
-    {
-        $request->validate([
+    {        $request->validate([
             'tu_sv' => 'required|integer|min:0',
             'den_sv' => 'required|integer|min:0|gte:tu_sv',
             'he_so' => 'required|numeric|min:0',
@@ -90,14 +95,21 @@ class ClassCoefficientController extends Controller
                     $q->where('tu_sv', '>=', $request->tu_sv)
                       ->where('den_sv', '<=', $request->den_sv);
                 });
-            })->where('trang_thai', true)->first();
-
-        if ($existingRange) {
+            })->where('trang_thai', true)->first();        if ($existingRange) {
             return back()->withErrors(['error' => 'Khoảng số sinh viên này đã tồn tại với hệ số khác!'])
                         ->withInput();
         }
 
-        $classCoefficient->update($request->all());
+        // Cập nhật dữ liệu với các trường cần thiết
+        $data = [
+            'tu_sv' => $request->tu_sv,
+            'den_sv' => $request->den_sv,
+            'he_so' => $request->he_so,
+            'mo_ta' => $request->mo_ta,
+            'trang_thai' => $request->boolean('trang_thai')
+        ];
+
+        $classCoefficient->update($data);
 
         return redirect()->route('admin.class-coefficients.index')
                         ->with('success', 'Cập nhật hệ số lớp thành công!');

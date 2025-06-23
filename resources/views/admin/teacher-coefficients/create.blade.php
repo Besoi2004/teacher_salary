@@ -27,26 +27,58 @@
                         <i class="fas fa-edit me-2"></i>
                         Thông tin hệ số
                     </h5>
-                </div>
-                <div class="card-body">
+                </div>                <div class="card-body">
+                    @if($degrees->isEmpty())
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Chưa có bằng cấp nào trong hệ thống!</strong>
+                            <br>
+                            Vui lòng <a href="{{ route('admin.degrees.create') }}" class="alert-link">tạo bằng cấp</a> 
+                            trước khi thêm hệ số giáo viên.
+                        </div>
+                    @elseif(count($degrees->reject(function($degree) use ($existingDegrees) {
+                        return in_array($degree->ten_day_du, $existingDegrees);
+                    })) == 0)
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Tất cả bằng cấp đã có hệ số!</strong>
+                            <br>
+                            Bạn có thể <a href="{{ route('admin.degrees.create') }}" class="alert-link">tạo bằng cấp mới</a> 
+                            hoặc <a href="{{ route('admin.teacher-coefficients.index') }}" class="alert-link">quản lý hệ số hiện có</a>.
+                        </div>
+                    @else
                     <form action="{{ route('admin.teacher-coefficients.store') }}" method="POST">
                         @csrf
-                        
-                        <div class="row">
+                          <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="ten_bang_cap" class="form-label">
-                                        Tên bằng cấp <span class="text-danger">*</span>
+                                        Bằng cấp <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" 
-                                           class="form-control @error('ten_bang_cap') is-invalid @enderror" 
-                                           id="ten_bang_cap" 
-                                           name="ten_bang_cap" 
-                                           value="{{ old('ten_bang_cap') }}"
-                                           placeholder="VD: Đại học, Thạc sĩ, Tiến sĩ...">
+                                    <select class="form-select @error('ten_bang_cap') is-invalid @enderror" 
+                                            id="ten_bang_cap" 
+                                            name="ten_bang_cap" 
+                                            required>
+                                        <option value="">-- Chọn bằng cấp --</option>
+                                        @foreach($degrees as $degree)
+                                            @if(!in_array($degree->ten_day_du, $existingDegrees))
+                                                <option value="{{ $degree->ten_day_du }}" 
+                                                        {{ old('ten_bang_cap') == $degree->ten_day_du ? 'selected' : '' }}>
+                                                    {{ $degree->ten_day_du }}
+                                                    @if($degree->ten_viet_tat)
+                                                        ({{ $degree->ten_viet_tat }})
+                                                    @endif
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                     @error('ten_bang_cap')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Chỉ hiển thị các bằng cấp chưa có hệ số
+                                    </div>
                                 </div>
                             </div>
                             
@@ -105,9 +137,9 @@
                             <a href="{{ route('admin.teacher-coefficients.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-times me-2"></i>
                                 Hủy bỏ
-                            </a>
-                        </div>
+                            </a>                        </div>
                     </form>
+                    @endif
                 </div>
             </div>
         </div>

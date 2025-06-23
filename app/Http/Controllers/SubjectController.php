@@ -32,7 +32,7 @@ class SubjectController extends Controller
     {
         $request->validate([
             'ma_so' => 'required|string|max:50|unique:subjects,ma_so',
-            'ten_hoc_phan' => 'required|string|max:255',
+            'ten_hoc_phan' => 'required|string|max:255|unique:subjects,ten_hoc_phan',
             'so_tin_chi' => 'required|integer|min:1|max:10',
             'he_so_hoc_phan' => 'required|numeric|min:0.1|max:5',
             'mo_ta' => 'nullable|string'

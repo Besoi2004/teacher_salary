@@ -25,6 +25,7 @@ class SemesterController extends Controller
             'nam_hoc' => 'required|string|max:20',
             'ngay_bat_dau' => 'required|date',
             'ngay_ket_thuc' => 'required|date|after:ngay_bat_dau',
+            'is_active' => 'boolean',
             'ghi_chu' => 'nullable|string'
         ]);
 
@@ -37,7 +38,22 @@ class SemesterController extends Controller
             return back()->withErrors(['ten_ki' => 'Học kỳ này đã tồn tại trong năm học.'])->withInput();
         }
 
-        Semester::create($request->all());
+        // If setting this semester as active, deactivate all other semesters
+        if ($request->boolean('is_active')) {
+            Semester::query()->update(['is_active' => false]);
+        }
+
+        // Prepare data for creation
+        $data = [
+            'ten_ki' => $request->ten_ki,
+            'nam_hoc' => $request->nam_hoc,
+            'ngay_bat_dau' => $request->ngay_bat_dau,
+            'ngay_ket_thuc' => $request->ngay_ket_thuc,
+            'is_active' => $request->boolean('is_active'),
+            'ghi_chu' => $request->ghi_chu
+        ];
+
+        Semester::create($data);
 
         return redirect()->route('admin.semesters.index')
                         ->with('success', 'Học kỳ đã được tạo thành công!');
@@ -61,6 +77,7 @@ class SemesterController extends Controller
             'nam_hoc' => 'required|string|max:20',
             'ngay_bat_dau' => 'required|date',
             'ngay_ket_thuc' => 'required|date|after:ngay_bat_dau',
+            'is_active' => 'boolean',
             'ghi_chu' => 'nullable|string'
         ]);
 
@@ -74,7 +91,22 @@ class SemesterController extends Controller
             return back()->withErrors(['ten_ki' => 'Học kỳ này đã tồn tại trong năm học.'])->withInput();
         }
 
-        $semester->update($request->all());
+        // If setting this semester as active, deactivate all other semesters
+        if ($request->boolean('is_active')) {
+            Semester::where('id', '!=', $semester->id)->update(['is_active' => false]);
+        }
+
+        // Prepare data for update
+        $data = [
+            'ten_ki' => $request->ten_ki,
+            'nam_hoc' => $request->nam_hoc,
+            'ngay_bat_dau' => $request->ngay_bat_dau,
+            'ngay_ket_thuc' => $request->ngay_ket_thuc,
+            'is_active' => $request->boolean('is_active'),
+            'ghi_chu' => $request->ghi_chu
+        ];
+
+        $semester->update($data);
 
         return redirect()->route('admin.semesters.index')
                         ->with('success', 'Học kỳ đã được cập nhật thành công!');

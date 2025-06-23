@@ -31,7 +31,7 @@
                                     <th>#</th>
                                     <th>Tên đầy đủ</th>
                                     <th>Tên viết tắt</th>
-                                    <th>Số giáo viên</th>
+                                    <
                                     <th>Mô tả</th>
                                     <th>Ngày tạo</th>
                                     <th>Thao tác</th>
@@ -47,20 +47,14 @@
                                         <td>
                                             <span class="badge bg-info">{{ $degree->ten_viet_tat }}</span>
                                         </td>
-                                        <td>
-                                            <span class="badge bg-secondary">{{ $degree->teachers_count }} giáo viên</span>
-                                        </td>
+                                        
                                         <td>
                                             {{ Str::limit($degree->mo_ta, 50) }}
                                         </td>
                                         <td>{{ $degree->created_at->format('d/m/Y') }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('admin.degrees.show', $degree) }}" 
-                                                   class="btn btn-sm btn-outline-info"
-                                                   title="Xem chi tiết">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
+                                                
                                                 <a href="{{ route('admin.degrees.edit', $degree) }}" 
                                                    class="btn btn-sm btn-outline-warning"
                                                    title="Chỉnh sửa">

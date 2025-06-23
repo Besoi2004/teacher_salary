@@ -76,10 +76,7 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('admin.teacher-coefficients.show', $coefficient) }}" 
-                                                   class="btn btn-outline-info btn-sm" title="Xem chi tiết">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
+                                                
                                                 <a href="{{ route('admin.teacher-coefficients.edit', $coefficient) }}" 
                                                    class="btn btn-outline-warning btn-sm" title="Chỉnh sửa">
                                                     <i class="fas fa-edit"></i>

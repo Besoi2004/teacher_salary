@@ -174,9 +174,7 @@
                 <a href="{{ route('admin.salary-calculation.index') }}" class="btn btn-secondary me-2">
                     <i class="mdi mdi-arrow-left me-1"></i> Tính toán khác
                 </a>
-                <button type="button" class="btn btn-success" onclick="window.print()">
-                    <i class="mdi mdi-printer me-1"></i> In kết quả
-                </button>
+                
             </div>
         </div>
     </div>

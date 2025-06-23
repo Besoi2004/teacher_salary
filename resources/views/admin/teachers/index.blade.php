@@ -78,11 +78,7 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('admin.teachers.show', $teacher) }}" 
-                                                   class="btn btn-sm btn-outline-info"
-                                                   title="Xem chi tiết">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
+                                                
                                                 <a href="{{ route('admin.teachers.edit', $teacher) }}" 
                                                    class="btn btn-sm btn-outline-warning"
                                                    title="Chỉnh sửa">

@@ -77,10 +77,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $coefficient->created_at->format('d/m/Y') }}</td>                                        <td>
-                                            <a href="{{ route('admin.class-coefficients.show', $coefficient) }}" 
-                                               class="action-icon btn btn-sm btn-outline-primary" title="Xem chi tiết">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
+                                            
                                             <a href="{{ route('admin.class-coefficients.edit', $coefficient) }}" 
                                                class="action-icon btn btn-sm btn-outline-warning" title="Chỉnh sửa">
                                                 <i class="fas fa-edit"></i>

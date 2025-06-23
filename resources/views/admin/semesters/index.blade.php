@@ -13,10 +13,7 @@
                         Danh sách Học kỳ
                     </h5>
                     <div>
-                        <a href="{{ route('admin.semesters.statistics') }}" class="btn btn-info btn-sm me-2">
-                            <i class="fas fa-chart-bar me-1"></i>
-                            Thống kê
-                        </a>
+
                         <a href="{{ route('admin.semesters.create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus me-1"></i>
                             Thêm Học kỳ
@@ -69,10 +66,7 @@
                                         <td>{{ $semester->ngay_ket_thuc ? $semester->ngay_ket_thuc->format('d/m/Y') : 'N/A' }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('admin.semesters.show', $semester) }}" 
-                                                   class="btn btn-outline-info btn-sm" title="Xem chi tiết">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
+                                                
                                                 <a href="{{ route('admin.semesters.edit', $semester) }}" 
                                                    class="btn btn-outline-warning btn-sm" title="Chỉnh sửa">
                                                     <i class="fas fa-edit"></i>

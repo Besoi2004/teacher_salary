@@ -60,12 +60,13 @@
                                             <strong>{{ $assignment->teacher->ho_ten }}</strong>
                                             <br>
                                             <small class="text-muted">{{ $assignment->teacher->department->ten_viet_tat }}</small>
-                                        </td>
-                                        <td>
+                                        </td>                                        <td>
                                             <div>
                                                 <strong>{{ $assignment->classSubject->ma_lop }}</strong>
                                                 <br>
-                                                <small class="text-muted">{{ $assignment->classSubject->subject->ten_hoc_phan }}</small>
+                                                <span class="text">{{ $assignment->classSubject->ten_lop }}</span>
+                                                <br>
+                                                
                                             </div>
                                         </td>
                                         <td>
@@ -78,10 +79,7 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('admin.teaching-assignments.show', $assignment) }}" 
-                                                   class="btn btn-outline-info btn-sm" title="Xem chi tiết">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
+                                                
                                                 <a href="{{ route('admin.teaching-assignments.edit', $assignment) }}" 
                                                    class="btn btn-outline-warning btn-sm" title="Chỉnh sửa">
                                                     <i class="fas fa-edit"></i>

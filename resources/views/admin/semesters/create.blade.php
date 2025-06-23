@@ -93,12 +93,12 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
+                    </div>                    <div class="row">
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <div class="form-check">
+                                    <!-- Hidden input để đảm bảo luôn có giá trị gửi lên khi checkbox không được check -->
+                                    <input type="hidden" name="is_active" value="0">
                                     <input class="form-check-input" 
                                            type="checkbox" 
                                            id="is_active" 

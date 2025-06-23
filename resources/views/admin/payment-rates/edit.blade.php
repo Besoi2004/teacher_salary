@@ -112,70 +112,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Thông tin hiện tại
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <small class="text-muted">Tên mức lương hiện tại:</small>
-                        <div class="fw-bold">{{ $paymentRate->ten_muc_luong }}</div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <small class="text-muted">Giá tiền hiện tại:</small>
-                        <div class="fw-bold text-success">
-                            {{ number_format($paymentRate->gia_tien_moi_tiet, 0, ',', '.') }} VND/tiết
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <small class="text-muted">Trạng thái hiện tại:</small>
-                        <div>
-                            @if($paymentRate->trang_thai)
-                                <span class="badge bg-success">Đang hoạt động</span>
-                            @else
-                                <span class="badge bg-secondary">Tạm dừng</span>
-                            @endif
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <small class="text-muted">Ngày tạo:</small>
-                        <div class="fw-bold">{{ $paymentRate->created_at->format('d/m/Y H:i') }}</div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <small class="text-muted">Cập nhật lần cuối:</small>
-                        <div class="fw-bold">{{ $paymentRate->updated_at->format('d/m/Y H:i') }}</div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="card mt-3">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">
-                        <i class="fas fa-lightbulb me-2"></i>
-                        Hướng dẫn
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-info">
-                        <h6><i class="fas fa-info-circle me-2"></i>Lưu ý:</h6>
-                        <ul class="mb-0">
-                            <li>Thay đổi tên mức lương phải đảm bảo không trùng lặp</li>
-                            <li>Giá tiền tính theo 1 tiết dạy (45 phút)</li>
-                            <li>Tắt trạng thái sẽ ẩn mức lương này khỏi danh sách chọn</li>
-                            <li>Các thay đổi sẽ có hiệu lực ngay lập tức</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection

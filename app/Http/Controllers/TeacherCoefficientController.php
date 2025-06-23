@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TeacherCoefficient;
+use App\Models\Degree;
 use Illuminate\Validation\Rule;
 
 class TeacherCoefficientController extends Controller
@@ -22,7 +23,13 @@ class TeacherCoefficientController extends Controller
      */
     public function create()
     {
-        return view('admin.teacher-coefficients.create');
+        // Lấy danh sách các bằng cấp đã có trong hệ thống
+        $degrees = Degree::orderBy('ten_day_du')->get();
+        
+        // Lấy danh sách các bằng cấp đã có hệ số để loại bỏ
+        $existingDegrees = TeacherCoefficient::pluck('ten_bang_cap')->toArray();
+        
+        return view('admin.teacher-coefficients.create', compact('degrees', 'existingDegrees'));
     }
 
     /**
@@ -55,7 +62,15 @@ class TeacherCoefficientController extends Controller
      */
     public function edit(TeacherCoefficient $teacherCoefficient)
     {
-        return view('admin.teacher-coefficients.edit', compact('teacherCoefficient'));
+        // Lấy danh sách các bằng cấp đã có trong hệ thống
+        $degrees = Degree::orderBy('ten_day_du')->get();
+        
+        // Lấy danh sách các bằng cấp đã có hệ số để loại bỏ (trừ bằng cấp hiện tại)
+        $existingDegrees = TeacherCoefficient::where('id', '!=', $teacherCoefficient->id)
+                                           ->pluck('ten_bang_cap')
+                                           ->toArray();
+        
+        return view('admin.teacher-coefficients.edit', compact('teacherCoefficient', 'degrees', 'existingDegrees'));
     }
 
     /**
